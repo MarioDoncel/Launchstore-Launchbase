@@ -1,0 +1,60 @@
+{% extends 'layout.njk' %}
+
+{% block content %}
+    <section class="product-single container">
+
+    <div class="gallery">
+        <div class="highlight">
+            {% if not files %}
+                <img src="http://placehold.it/500x500?text=PRODUTO SEM FOTO" alt="">
+            {% else %}
+                <img src="{{files[0].src}}" alt="{{files[o].name}}" onclick="Lightbox.open(event)">
+            {% endif %}
+            <div class="lightbox-target">
+                <img src="{{files[0].src}}" alt="{{files[o].name}}">
+                <a href="#" class="lightbox-close" onclick="Lightbox.close()">
+                    <i class="material-icons">close</i>
+                </a>
+            </div>
+        </div>
+        <div class="gallery-preview">
+            {% for file in files %}
+                <img 
+                    src="{{file.src}}" 
+                    alt="{{file.name}}" 
+                    {%if loop.index0 == 0%} class="active" {%endif%} 
+                    onclick="ImageGallery.setImage(event)">
+                    
+            {% endfor %}
+        </div>
+    </div>
+    <div class="info">
+        <h1>{{product.name}}</h1>
+        <div class="published">
+            Publicado em {{product.published.date}} as {{product.published.hour}}hrs{{product.published.minute}}min
+        </div>
+        <div class="description">
+            {{product.description}}
+        </div>
+        <div class="price-buy">
+            <div class="price">
+                {{product.price}}
+                <span class="old">{{product.old_price}}</span>
+            </div>
+            
+            <div class="buy">
+                {% if product.status == 0  %}
+                    <p class="unavailable">Indisponivel</p>
+                {% elseif product.quantity == 0 %}
+                    <p class="unavailable">Fora de estoque</p>
+                {% else %}
+                    <button class="button">COMPRAR</button>
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+
+
+    </section>
+{% endblock content %}
