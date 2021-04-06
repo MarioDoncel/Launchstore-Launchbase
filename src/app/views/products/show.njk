@@ -5,7 +5,7 @@
 
     <div class="gallery">
         <div class="highlight">
-            {% if not files %}
+            {% if not files[0] %}
                 <img src="http://placehold.it/500x500?text=PRODUTO SEM FOTO" alt="">
             {% else %}
                 <img src="{{files[0].src}}" alt="{{files[o].name}}" onclick="Lightbox.open(event)">
