@@ -1,11 +1,9 @@
-{% extends 'layout.njk' %}
-{% import "parts/section-products.njk" as section %}
+{% macro products(name, classes, products)%}
 
-{% block content %}
-
-{{section.products('Ultimos produtos', 'container', products) }}
-    {# <section class="shop container">
-        <h2>Ultimos Produtos</h2>
+    <section class="shop {{classes}}"> 
+        {% if name %}
+            <h2>{{name}}</h2>
+        {% endif %}   
         <div class="items">
             {% for product in products %}
                 <div class="product">
@@ -23,6 +21,5 @@
                 </div> <!-- Items -->
             {% endfor %}
         </div> <!-- Items -->
-    </section> #}
-
-{% endblock content %}
+    </section>
+{%endmacro%}

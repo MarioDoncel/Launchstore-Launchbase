@@ -2,10 +2,25 @@
 {% import "parts/section-products.njk" as section %}
 
 {% block content %}
-
-{{section.products('Ultimos produtos', 'container', products) }}
-    {# <section class="shop container">
-        <h2>Ultimos Produtos</h2>
+    <section class="search-products container">
+        <aside>
+            <div class="header">
+                <h2>{{search.term}}</h2>
+                <p>{{search.total}} encontrados</p>
+            </div>
+            <nav class="categories">
+                <h4>Categorias</h4>
+                <ul>
+                    {% for category in categories %}
+                        <li><a href="/products/search?filter={{search.term}}&category={{category.id}}">{{category.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+        {{section.products('', 'searched', products) }}
+    </section>
+    
+    {# <section class="shop container">    
         <div class="items">
             {% for product in products %}
                 <div class="product">
@@ -22,7 +37,7 @@
                     
                 </div> <!-- Items -->
             {% endfor %}
-        </div> <!-- Items -->
-    </section> #}
+        </div> <!-- Items --> 
+    </section>#}
 
 {% endblock content %}

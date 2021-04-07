@@ -5,7 +5,8 @@ const File = require('../models/File')
 
 module.exports = {
     async index(req, res) {
-        let results = await Product.all()
+        try {
+            let results = await Product.all()
         const products = results.rows
 
         if(!products) return res.send("Não encontramos produtos.")
@@ -25,5 +26,8 @@ module.exports = {
         const lastAdded = await Promise.all(productsPromisse)
 
         return res.render("home/index.njk", {products: lastAdded})
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
