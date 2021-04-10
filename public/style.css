@@ -164,6 +164,7 @@ form .item > div:nth-child(1) {
     font-weight: bold;
     margin-bottom: 8px;
 }
+form .item .input input,
 form .item input[type="text"],
 form .item input[type="number"],
 form .item textarea,
@@ -469,5 +470,17 @@ form .item #photos-preview img {
 .search-products nav ul a:hover{
     color: black;
     font-weight: bold;
+}
+
+/* ==== USER Register ==== */
+.user-register.container.form {
+    max-width: 500px ;
+}
+.form input[name="email"],
+.form input[name="password"],
+.form input[name="passwordRepeat"],
+.form input[name="cpf_cnpj"],
+.form input[name="cep"] {
+    max-width: 60%;
 }
 

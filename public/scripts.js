@@ -23,12 +23,36 @@ const Mask ={
         },1)
     },
     formatBRL(value) {
-    value = value.replace(/\D/g, "")  // Substituir todos os caracteres que não sejam numeros
+        value = value.replace(/\D/g, "")  // Substituir todos os caracteres que não sejam numeros
 
-    return new Intl.NumberFormat('pt-BR', {
-        style:'currency',
-        currency:'BRL'
-    }).format(value/100) // Formatando para reais
+        return new Intl.NumberFormat('pt-BR', {
+            style:'currency',
+            currency:'BRL'
+        }).format(value/100) // Formatando para reais
+    },
+    cpfCnpj(value) {
+        value = value.replace(/\D/g, "")
+        if(value.length > 14) value = value.slice(0,-1)
+        //check if CPF or CNPJ
+        if (value.length > 11) {
+            //cnpj
+            value= value.replace(/(\d{2})(\d)/,"$1.$2")
+            value= value.replace(/(\d{3})(\d)/,"$1.$2")
+            value= value.replace(/(\d{3})(\d)/,"$1/$2")
+            value= value.replace(/(\d{4})(\d)/,"$1-$2")
+        } else {
+            //cpf
+            value= value.replace(/(\d{3})(\d)/,"$1.$2")
+            value= value.replace(/(\d{3})(\d)/,"$1.$2")
+            value= value.replace(/(\d{3})(\d)/,"$1-$2")
+        }
+        return value
+    },
+    cep(value){
+        value = value.replace(/\D/g, "")
+        if(value.length > 8) value = value.slice(0,-1)
+        value= value.replace(/(\d{5})(\d)/,"$1-$2")
+        return value
     }
 }
 
