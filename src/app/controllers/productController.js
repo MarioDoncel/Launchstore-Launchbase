@@ -23,7 +23,7 @@ module.exports = {
     async post(req, res) {
         // Logica de salvar no DB
         const keys = Object.keys(req.body)
-        for (key of keys) {
+        for (req.body[key] of keys) {
             if (key == "") {
                 return res.send("Por favor preencha todos os campos")
             }
@@ -88,7 +88,7 @@ module.exports = {
     },
     async put(req,res){
         const keys = Object.keys(req.body)
-        for (key of keys) {
+        for (req.body[key] of keys) {
             if (key == "" && key != "removed_files") {
                 return res.send("Por favor preencha todos os campos")
             }
