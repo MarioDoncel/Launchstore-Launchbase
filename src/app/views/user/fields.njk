@@ -25,8 +25,12 @@
     <div>Senha</div>
     <div class="input"><input 
         type="password" 
-        name="password"  
-        placeholder="Escolha uma senha segura" 
+        name="password"
+        {% if not user.id %}  
+        placeholder="Escolha uma senha segura"
+        {% else  %}
+        placeholder="Digite sua senha para atualizar seu cadastro"
+        {% endif %}
         >
     </div>
 </div>
