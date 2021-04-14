@@ -12,18 +12,15 @@ function checkAllFields(body) {
         }
     }
 }
-
 async function show(req, res, next){
     const {UserId: id} = req.session
     const results = await User.findOne({
-        where:id
+        where:{id}
     })
     const user = results.rows[0]
-
     if(!user) return res.render('user/register', {
         error:"Usuário não encontrado"
     })
-
     req.user = user
 
     next()
