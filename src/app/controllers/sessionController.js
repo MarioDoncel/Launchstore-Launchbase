@@ -11,7 +11,7 @@ module.exports = {
         // verify user
         //verify password
         //Initialize req.session
-        req.session.UserId = req.user.id
+        req.session.userId = req.user.id
         return res.redirect('/users')
     },
     logout(req, res){

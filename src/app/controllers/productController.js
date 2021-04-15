@@ -10,7 +10,6 @@ module.exports = {
         Category.all()
         .then(function(results) {
             const categories = results.rows
-            console.log(categories)
 
             return res.render('products/create.njk', {categories})
         }).catch(function (err) {
@@ -23,8 +22,8 @@ module.exports = {
     async post(req, res) {
         // Logica de salvar no DB
         const keys = Object.keys(req.body)
-        for (req.body[key] of keys) {
-            if (key == "") {
+        for (key of keys) {
+            if (req.body[key] == "") {
                 return res.send("Por favor preencha todos os campos")
             }
         }

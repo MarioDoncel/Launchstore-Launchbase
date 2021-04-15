@@ -90,8 +90,8 @@ module.exports = {
 
         filterQuery=`
             ${filterQuery}
-            products.name ILIKE '${filter}%'
-            OR products.description ILIKE '${filter}%'
+            products.name ILIKE '%${filter}%'
+            OR products.description ILIKE '%${filter}%'
         `
 
         query = `

@@ -17,7 +17,7 @@ routes.use('/users', users)
 
 //Alias
 routes.get('/ads/create', function(req, res) {
-    return res.render("/products/create")
+    return res.redirect("/products/create")
 })
 routes.get('/accounts', function(req, res) {
     return res.redirect("/users/login")

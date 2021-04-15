@@ -1,6 +1,7 @@
 const express = require('express')
 const routes = express.Router()
 const multer = require('../app/middlewares/multer')
+const {onlyUsers} = require('../app/middlewares/session')
 
 const productController = require('../app/controllers/productController')
 const searchController = require('../app/controllers/searchController')
@@ -10,13 +11,13 @@ routes.get('/search', searchController.index) //Colocada rota antes pois senão 
 //navegador tenta encontrar o :id das rotas products
 
 //Products
-routes.get('/create', productController.create)
-routes.get('/:id/edit', productController.edit)
+routes.get('/create', onlyUsers, productController.create)
+routes.get('/:id/edit', onlyUsers, productController.edit)
 routes.get('/:id', productController.show)
 
-routes.post('/', multer.array('photos', 6), productController.post)
-routes.put('/', multer.array('photos', 6), productController.put)
-routes.delete('/', productController.delete)
+routes.post('/', onlyUsers, multer.array('photos', 6), productController.post)
+routes.put('/', onlyUsers, multer.array('photos', 6), productController.put)
+routes.delete('/', onlyUsers, productController.delete)
 
 
 module.exports = routes
