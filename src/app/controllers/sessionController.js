@@ -1,7 +1,8 @@
 const crypto = require('crypto') // modulo de criação de token no NODE
 const mailer = require('../../lib/mailer')
+const {hash} = require('bcryptjs')
 
-const Product = require('../models/Product')
+// const Product = require('../models/Product')
 const User = require('../models/User')
 // const File = require('../models/File')
 
@@ -42,10 +43,10 @@ module.exports = {
                 to:user.email,
                 from: 'no-reply@launchstore.com.br',
                 subject: 'Recuperação de senha',
-                html: `<h2.Perdeu a senha?</h2>
+                html: `<h2>Perdeu a senha?</h2>
                 <p>Não se preocupe, clique no link abaixo para recuperar sua senha</p>
                 <p>
-                    <a href="http://localhost:3000/users/password-reset?token=${token} target="_blank">
+                    <a href="http://localhost:3000/users/password-reset?token=${token}" target="_blank">
                         RECUPERAR SENHA
                     </a>
                 </p>
@@ -61,6 +62,29 @@ module.exports = {
             })
         }
        
+    },
+    resetForm(req, res){
+        return res.render('session/password-reset', {token: req.query.token})
+    },
+    async reset(req,res){
+        const {password} = req.body
+        const user = req.user
+        try {
+            
+            // Cria um novo hash de senha
+            const passwordHash = await hash(password, 8)
+            // Atualiza o usuário
+            await User.update(user.id,{
+                passwordHash
+            })
+            // Avisa o usúario que ele tem uma nova senha
+            
+        } catch (error) {
+            return res.render("session/password-reset", {
+                error: "Ocorreu um erro, tente novamente."
+            })
+        }
+        return res.send('Passou')
     }
 
 }

@@ -38,13 +38,49 @@ async function forgot(req, res, next) {
         next()
     } catch (error) {
         console.error(error)
-    }
-    
+    }    
 }
+async function reset(req, res, next) {
+    const {email} = req.body
+    const results = await User.findOne({
+        where: {email}
+    })
+    const user = results.rows[0]
 
+    if(!user) return res.render('session/password-reset', {
+        user:req.body,
+        token,
+        error:"Usuário não encontrado."
+    })
+    //check if password matchs
+    const { password, passwordRepeat,token } = req.body
+    if (password != passwordRepeat) return res.render('session/password-reset', {
+        user:req.body,
+        token,
+        error: 'Senha não confirmada corretamente.'
+    })
+    //Verificar token
+    if(token != user.reset_token) return res.render('session/password-reset', {
+        user:req.body,
+        token,
+        error: 'Token inválido!Solicite uma nova recuperação de senha.'
+    })
+    // Verificar token expire
+    let now = new Date()
+    now = now.setHours(now.getHours())
+
+    if (now > user.reset_token_expires) return res.render('session/password-reset', {
+        user:req.body,
+        token,
+        error: 'Token expirado!Solicite uma nova recuperação de senha.'
+    })
+    req.user = user
+    next()
+}
 module.exports = {
     login,
-    forgot
+    forgot,
+    reset
 }
 
 
