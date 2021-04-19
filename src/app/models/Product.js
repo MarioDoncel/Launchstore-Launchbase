@@ -43,17 +43,15 @@ module.exports = {
         const query = `
             UPDATE products SET 
                 category_id=($1),		
-                user_id=($2),
-                name=($3),	
-                description=($4),
-                price=($5),
-                old_price=($6),	
-                quantity=($7),	
-                status=($8)	
-            WHERE id = $9`
+                name=($2),	
+                description=($3),
+                price=($4),
+                old_price=($5),	
+                quantity=($6),	
+                status=($7)	
+            WHERE id = $8`
         const values = [
             data.category_id,		
-            data.user_id || 1,
             data.name,	
             data.description,
             data.price,

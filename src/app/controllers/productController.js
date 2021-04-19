@@ -29,6 +29,7 @@ module.exports = {
         }
         if(req.files.length == 0) return res.send('Por favor envie pelo menos uma imagem.')
 
+        req.body.user_id = req.session.userId
         let results = await Product.create(req.body)
         const productId = results.rows[0].id
 
@@ -87,8 +88,8 @@ module.exports = {
     },
     async put(req,res){
         const keys = Object.keys(req.body)
-        for (req.body[key] of keys) {
-            if (key == "" && key != "removed_files") {
+        for (key of keys) {
+            if (req.body[key] == "" && key != "removed_files") {
                 return res.send("Por favor preencha todos os campos")
             }
         }

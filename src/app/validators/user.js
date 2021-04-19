@@ -13,7 +13,7 @@ function checkAllFields(body) {
     }
 }
 async function show(req, res, next){
-    const {UserId: id} = req.session
+    const {userId: id} = req.session
     const results = await User.findOne({
         where:{id}
     })

@@ -67,7 +67,7 @@ module.exports = {
         return res.render('session/password-reset', {token: req.query.token})
     },
     async reset(req,res){
-        const {password} = req.body
+        const {password, token} = req.body
         const user = req.user
         try {
             
@@ -75,16 +75,24 @@ module.exports = {
             const passwordHash = await hash(password, 8)
             // Atualiza o usuário
             await User.update(user.id,{
-                passwordHash
+                password: passwordHash,
+                reset_token: "",
+                reset_token_expires:""
             })
             // Avisa o usúario que ele tem uma nova senha
-            
+            return res.render("session/login", {
+                user,
+                success: "Senha atualizada! Faça o seu login."
+            })
         } catch (error) {
+            console.error(error)
             return res.render("session/password-reset", {
+                user: req.body,
+                token,
                 error: "Ocorreu um erro, tente novamente."
             })
         }
-        return res.send('Passou')
+        
     }
 
 }

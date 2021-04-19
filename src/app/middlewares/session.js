@@ -4,7 +4,6 @@ function onlyUsers(req, res, next) {
             user:req.body,
             error:"Permitido apenas para usuários, faça o login."
         })
-    
     next()
 }
 
