@@ -1,6 +1,10 @@
-const User = require('../models/User')
+const fs = require('fs')
+const {hash} = require('bcryptjs')
 
+const User = require('../models/User')
+const Product  = require('../models/Product')
 const {formatCep, formatCpfCnpj} = require('../../lib/utils')
+
 
 module.exports = {
     async registerForm(req,res) {
@@ -8,21 +12,45 @@ module.exports = {
     },
     async post(req,res) {
         // Validação esta no Validators (middleware) check fields
-        const results = await User.create(req.body)
-        const UserId = results.rows[0]
+        try {
+            
+            let {name, email, password, cpf_cnpj, cep, address} = req.body
+            //hash of password (criptografia)
+            password = await hash(req.body.password, 8)
+            cpf_cnpj = cpf_cnpj.replace(/\D/g, "")
+            cep = cep.replace(/\D/g, "")
 
-        req.session.UserId = UserId
 
-        return res.redirect('/users')
+            const UserId = await User.create({
+                name, 
+                email, 
+                password, 
+                cpf_cnpj, 
+                cep, 
+                address
+            })
+    
+            req.session.UserId = UserId
+    
+            return res.redirect('/users')
+        } catch (error) {
+            console.log(error)
+        }
+       
     }, 
-    async show(req, res) {
+    show(req, res) {
         // Validação e busca do User esta no Validators (middleware)
-        const {user} = req
+        try {
+            const {user} = req
 
-        user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj) 
-        user.cep = formatCep(user.cep) 
+            user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj) 
+            user.cep = formatCep(user.cep) 
 
-        return res.render('user/index', {user})
+            return res.render('user/index', {user})
+        } catch (error) {
+            console.log(error)
+        }
+        
     },
     async update(req,res) {
         // Validação esta no Validators (middleware) - check fields - check password
@@ -53,7 +81,24 @@ module.exports = {
     },
     async delete(req, res) {
         try {
+            // pegar todos os produtos do usuario
+            const userProducts = await Product.findAll({where: {user_id:req.body.id}})
+            // dos produtos, pegar as imagens
+            const allFilesPromise = userProducts.map(product => Product.files(product.id))
+            let promiseResults =  await Promise.all(allFilesPromise)
+            // remover as imagens da pasta public
+            promiseResults.map(results => {
+                results.rows.map(file=>{ 
+                    try {
+                        fs.unlinkSync(file.path)
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            })
+            // rodar a remoção do usuario
             await User.delete(req.body.id)
+    
             req.session.destroy()
 
             return res.render('session/login', {

@@ -2,9 +2,9 @@ const crypto = require('crypto') // modulo de criação de token no NODE
 const mailer = require('../../lib/mailer')
 const {hash} = require('bcryptjs')
 
-// const Product = require('../models/Product')
+
 const User = require('../models/User')
-// const File = require('../models/File')
+
 
 module.exports = {
     loginForm(req, res){

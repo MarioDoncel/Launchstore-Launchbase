@@ -5,47 +5,56 @@ const Product = require('../models/Product')
 const File = require('../models/File')
 
 module.exports = {
-    create(req,res) {
-        //Pegar categorias
-        Category.all()
-        .then(function(results) {
-            const categories = results.rows
-
+    async create(req,res) {
+        try {
+            //Pegar categorias
+            const categories = await Category.findAll()
+            
             return res.render('products/create.njk', {categories})
-        }).catch(function (err) {
-            throw new Error(err)
-        })
-
-            // exemplo de PROMISSE
-        
+        } catch (error) {
+            console.log(error)
+        }       
     },
     async post(req, res) {
-        // Logica de salvar no DB
-        const keys = Object.keys(req.body)
-        for (key of keys) {
-            if (req.body[key] == "") {
-                return res.send("Por favor preencha todos os campos")
+        try {
+            // Logica de salvar no DB
+            const keys = Object.keys(req.body)
+            for (key of keys) {
+                if (req.body[key] == "") {
+                    return res.send("Por favor preencha todos os campos")
+                }
             }
-        }
-        if(req.files.length == 0) return res.send('Por favor envie pelo menos uma imagem.')
+            if(req.files.length == 0) return res.send('Por favor envie pelo menos uma imagem.')
 
-        req.body.user_id = req.session.userId
-        let results = await Product.create(req.body)
-        const productId = results.rows[0].id
+            let {category_id, name, description, old_price, price, quantity, status} = req.body
+            price = price.replace(/\D/g, "") // Tirando a formatação de reais
 
-        const filesPromise = req.files.map(file =>  File.create({...file, product_id:productId})) // criando um array de promises
-        await Promise.all(filesPromise) //executa cada promisse em sequencia
+            
+            const product_id = await Product.create({
+                category_id, 
+                user_id: req.session.userId,
+                name, 
+                description, 
+                old_price: old_price || price, 
+                price, 
+                quantity, 
+                status: status || 1
+            })
+             
 
-        results = await Category.all()
-        const categories = results.rows
+            const filesPromise = req.files.map(file =>  File.create({...file, product_id})) // criando um array de promises
+            await Promise.all(filesPromise) //executa cada promisse em sequencia
 
-        return res.redirect(`products/${productId}/edit`)
+            return res.redirect(`products/${product_id}/edit`)
 
              // ============ Exemplo de async await
+        } catch (error) {
+            console.log(error)
+        }
     },
     async show(req,res){
-        let results = await Product.find(req.params.id)
-        const product = results.rows[0]
+        try {
+            const product = await Product.find(req.params.id)
             if(!product)return res.send('Produto não encontrado!')
 
             product.published = {
@@ -56,35 +65,42 @@ module.exports = {
             product.old_price = formatPrice(product.old_price)
             product.price = formatPrice(product.price)
 
-        results = await Product.files(product.id) // product.id
-        let files = results.rows
-        files = files.map(file => ({
-            ...file,
-            src:`${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
-        }))
+            let files = await Product.files(product.id) // product.id
+            files = files.map(file => ({
+                ...file,
+                src:`${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+            }))
 
-        return res.render('products/show', {product, files})
+            return res.render('products/show', {product, files})
+        } catch (error) {
+            console.log(error)
+        }
+
+        
     },
     async edit(req,res) {
-        let results = await Product.find(req.params.id)
-        const product = results.rows[0]
+        try {
+            const product = await Product.find(req.params.id)
+         
             if(!product)return res.send('Produto não encontrado!')
+            
+            product.old_price = formatPrice(product.old_price)
+            product.price = formatPrice(product.price)
+            
+            // Pegando categorias para o <select>
+            const categories = await Category.findAll()
+            
+            // pegando imagens para visualização
+            let files = await Product.files(product.id)
+            files = files.map(file => ({
+                ...file,
+                src:`${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+            }))
+            return res.render('products/edit.njk', {product, categories, files})
+        } catch (error) {
+            console.log(error)
+        }
         
-        product.old_price = formatPrice(product.old_price)
-        product.price = formatPrice(product.price)
-        
-        // Pegando categorias para o <select>
-        results = await Category.all()
-        const categories = results.rows
-
-        // pegando imagens para visualização
-        results = await Product.files(product.id)
-        let files = results.rows
-        files = files.map(file => ({
-            ...file,
-            src:`${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
-        }))
-        return res.render('products/edit.njk', {product, categories, files})
     },
     async put(req,res){
         const keys = Object.keys(req.body)
@@ -114,7 +130,15 @@ module.exports = {
             
             req.body.old_price = oldProduct.rows[0].price
         }
-        await Product.update(req.body)
+        await Product.update(req.body.id, {
+            category_id: req.body.category_id,
+            name: req.body.name,
+            description: req.body.description,
+            old_price: req.body.old_price,
+            price: req.body.price,
+            quantity: req.body.quantity,
+            status: req.body.status
+        })
 
         return res.redirect(`products/${req.body.id}`)
     }, 
