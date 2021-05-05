@@ -87,8 +87,8 @@ module.exports = {
             const allFilesPromise = userProducts.map(product => Product.files(product.id))
             let promiseResults =  await Promise.all(allFilesPromise)
             // remover as imagens da pasta public
-            promiseResults.map(results => {
-                results.rows.map(file=>{ 
+            promiseResults.map(files => {
+                files.map(file=>{ 
                     try {
                         fs.unlinkSync(file.path)
                     } catch (error) {

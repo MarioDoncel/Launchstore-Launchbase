@@ -10,7 +10,8 @@ module.exports = {
 
         const {filter, category} = req.query
         if (!filter) return res.redirect('/')
-            params.filter = filter
+        
+        params.filter = filter
         if (category) {
             params.category = category
         }

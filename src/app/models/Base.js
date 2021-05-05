@@ -6,9 +6,8 @@ function find(filters, table) {
     if (filters) {
         Object.keys(filters).map(key => {
             // where || or
-            query += `${key}`
+            query += ` ${key} `
             Object.keys(filters[key]).map(field => {
-                // email || cpf_cnpj
                 query += `${field} = '${filters[key][field]}'`
             })
         })

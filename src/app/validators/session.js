@@ -3,10 +3,10 @@ const {compare} = require('bcryptjs')
 
 async function login(req, res, next){
     const {email, password} = req.body
-    const results = await User.findOne({
+    const user = await User.findOne({
         where: {email}
     })
-    const user = results.rows[0]
+    
 
     if(!user) return res.render('session/login', {
         user:req.body,
@@ -25,10 +25,10 @@ async function login(req, res, next){
 async function forgot(req, res, next) {
     const {email} = req.body
     try {
-        const results = await User.findOne({
+        const user = await User.findOne({
             where: {email}
         })
-        const user = results.rows[0]
+        
     
         if(!user) return res.render('session/forgot-password', {
             user:req.body,
@@ -42,10 +42,10 @@ async function forgot(req, res, next) {
 }
 async function reset(req, res, next) {
     const {email} = req.body
-    const results = await User.findOne({
+    const user = await User.findOne({
         where: {email}
     })
-    const user = results.rows[0]
+    
 
     if(!user) return res.render('session/password-reset', {
         user:req.body,
@@ -72,7 +72,7 @@ async function reset(req, res, next) {
     if (now > user.reset_token_expires) return res.render('session/password-reset', {
         user:req.body,
         token,
-        error: 'Token expirado!Solicite uma nova recuperação de senha.'
+        error: 'Token expirado! Solicite uma nova recuperação de senha.'
     })
     req.user = user
     next()

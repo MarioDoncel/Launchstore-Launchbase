@@ -14,10 +14,10 @@ function checkAllFields(body) {
 }
 async function show(req, res, next){
     const {userId: id} = req.session
-    const results = await User.findOne({
+    const user = await User.findOne({
         where:{id}
     })
-    const user = results.rows[0]
+
     if(!user) return res.render('user/register', {
         error:"Usuário não encontrado"
     })
@@ -34,11 +34,10 @@ async function post(req, res, next) {
     //check if user exists [email, cpf_cnpj]
     let { email, cpf_cnpj } = req.body
     cpf_cnpj = cpf_cnpj.replace(/\D/g, "")
-    const results = await User.findOne({
+    const user = await User.findOne({
         where: { email },
         or: { cpf_cnpj }
     })
-    const user = results.rows[0]
 
     if (user) return res.render('user/register', {
         user:req.body,
@@ -65,8 +64,8 @@ async function update(req, res, next) {
                 user:req.body,
                 error: 'Digite a senha para atualizar o cadastro'
             })
-        const results = await User.findOne({where: {id}})
-        const user = results.rows[0]
+        const user = await User.findOne({where: {id}})
+        
 
         //check if password matches
         const passed = await compare(password, user.password) // função do bcryptjs

@@ -1,3 +1,4 @@
+const fs = require('fs')
 const {formatPrice, date} = require('../../lib/utils')
 
 const Category = require('../models/Category')
@@ -42,7 +43,10 @@ module.exports = {
             })
              
 
-            const filesPromise = req.files.map(file =>  File.create({...file, product_id})) // criando um array de promises
+            const filesPromise = req.files.map(file =>  File.create({
+                name: file.filename, 
+                path: file.path, 
+                product_id})) // criando um array de promises
             await Promise.all(filesPromise) //executa cada promisse em sequencia
 
             return res.redirect(`products/${product_id}/edit`)
@@ -56,7 +60,6 @@ module.exports = {
         try {
             const product = await Product.find(req.params.id)
             if(!product)return res.send('Produto não encontrado!')
-
             product.published = {
                 date: date(product.updated_at).format,
                 hour:date(product.updated_at).hour,
@@ -128,7 +131,7 @@ module.exports = {
         if(req.body.old_price != req.body.price){
             const oldProduct = await Product.find(req.body.id)
             
-            req.body.old_price = oldProduct.rows[0].price
+            req.body.old_price = oldProduct.price
         }
         await Product.update(req.body.id, {
             category_id: req.body.category_id,
@@ -143,7 +146,17 @@ module.exports = {
         return res.redirect(`products/${req.body.id}`)
     }, 
     async delete(req, res) {
+        const files = await Product.files(req.body.id)
+        
         await Product.delete(req.body.id)
+
+        files.map(file=>{ 
+            try {
+                fs.unlinkSync(file.path)
+            } catch (error) {
+                console.log(error)
+            }
+        })
 
         return res.redirect('/products/create')
     }
