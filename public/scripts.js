@@ -214,5 +214,22 @@ const Validate ={
     clearError(input){
         const errorDiv = input.parentNode.querySelector('.error')
         if (errorDiv) errorDiv.remove()
+    },
+    allFields(event){
+        const items = document.querySelectorAll('.tem input, .item select, .item textarea')
+        for (const item of items) {
+            if(item.value == ""){
+                const message = document.createElement('div')
+                message.classList.add('messages')
+                message.classList.add('error')
+                message.style.position = 'fixed'
+                message.innerHTML = "Por favor preencha todos os campos."
+                document.querySelector('body').append(message)
+                setTimeout(() => document.querySelector('.messages.error').remove(), 5000)
+                event.preventDefault()
+                break
+            }
+            
+        }
     }
 }

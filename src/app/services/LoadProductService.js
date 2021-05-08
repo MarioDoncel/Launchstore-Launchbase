@@ -55,4 +55,4 @@ const LoadService = {
     },
     format
 }
-module.exports= LoadService
+module.exports = LoadService

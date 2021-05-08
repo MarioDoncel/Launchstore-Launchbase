@@ -19,15 +19,6 @@ module.exports = {
     },
     async post(req, res) {
         try {
-            // Logica de salvar no DB
-            const keys = Object.keys(req.body)
-            for (key of keys) {
-                if (req.body[key] == "") {
-                    return res.send("Por favor preencha todos os campos")
-                }
-            }
-            if(req.files.length == 0) return res.send('Por favor envie pelo menos uma imagem.')
-
             let {category_id, name, description, old_price, price, quantity, status} = req.body
             price = price.replace(/\D/g, "") // Tirando a formatação de reais
 

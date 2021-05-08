@@ -7,6 +7,7 @@ const userController = require('../app/controllers/UserController')
 const UserValidator = require('../app/validators/user')
 const SessionValidator = require('../app/validators/session')
 const {isLogged, onlyUsers} = require('../app/middlewares/session')
+const UserController = require('../app/controllers/UserController')
 
 // login/logout
 routes.get('/login',isLogged, sessionController.loginForm)
@@ -26,5 +27,7 @@ routes.get('/', onlyUsers, UserValidator.show, userController.show)
 routes.post('/register',UserValidator.post, userController.post)
 routes.put('/',UserValidator.update, userController.update)
 routes.delete('/', userController.delete)
+
+routes.get('/ads', UserController.ads)
 
 module.exports = routes
