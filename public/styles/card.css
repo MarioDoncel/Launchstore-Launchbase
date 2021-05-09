@@ -14,3 +14,9 @@
     color: var(--primaryColor);
     margin-bottom: 16px;
 }
+
+.product-create,
+.edit-product,
+.user-dashboard {
+    max-width: 500px;
+}
