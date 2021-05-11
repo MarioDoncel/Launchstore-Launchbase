@@ -79,3 +79,10 @@
 .product-single .info .price-buy .buy .unavailable{
     visibility: visible;
 }
+.product-single .unavailable {
+    font-size: 14px;
+    color: #ccc;
+    font-weight: bold;
+    background-color: #eee;
+    padding: 8px 16px;
+}
