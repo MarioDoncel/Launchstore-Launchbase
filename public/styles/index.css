@@ -104,21 +104,24 @@ header .container a {
 }
 
 /* PRIMARY MENU */
-nav.primary ul {
+nav.primary > ul {
     display: flex;
     justify-content: space-around;
 }
-nav.primary ul li a{
+nav.primary > ul > li > a{
     display: flex;
     align-items: center;
     color: white;
+    height: 48px;
+
+    transition: 200ms;
 }
-nav.primary ul li a:hover{
+nav.primary > ul > li > a:hover{
     color: var(--primaryColor);
     cursor: pointer;
     transition: 300ms;
 }
-nav.primary ul li a i {
+nav.primary > ul > li > a > i {
     margin-right: 4px;
 }
 
