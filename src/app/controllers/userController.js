@@ -33,7 +33,7 @@ module.exports = {
     
             req.session.UserId = UserId
     
-            return res.redirect('/users')
+            return res.render('session/login', {success:'Usuário registrado com sucesso. Realize seu login.'})
         } catch (error) {
             console.log(error)
         }
