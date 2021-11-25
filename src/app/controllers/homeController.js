@@ -4,7 +4,11 @@ module.exports = {
     async index(req, res) {
         try {
             const allProducts = await LoadProductService.load('products') 
-            const lastAdded = allProducts.filter((product, index) => index > 2 ? false : true)        
+            
+            const lastAdded = allProducts.filter((product, index) => {
+                product.img = product.img.replace(/\\/g, "/")
+                return index > 2 ? false : true
+            })        
 
             if(!allProducts) return res.send("Não encontramos produtos.")
 

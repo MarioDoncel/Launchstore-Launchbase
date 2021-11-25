@@ -103,16 +103,6 @@ FOREIGN KEY ("product_id")
 REFERENCES "products"("id")
 ON DELETE CASCADE;
 
--- clean data
-DELETE FROM products;
-DELETE FROM users;
-DELETE FROM files;
-
--- restart sequence auto_increment from tables ids
-ALTER SEQUENCE products_id_seq RESTART WITH 1;
-ALTER SEQUENCE users_id_seq RESTART WITH 1;
-ALTER SEQUENCE files_id_seq RESTART WITH 1;
-
 -- create orders(pedidos)
 CREATE TABLE "orders" (
   "id" SERIAL PRIMARY KEY,
@@ -154,4 +144,33 @@ SELECT * FROM products WHERE deleted_at IS null;
 ALTER TABLE products RENAME TO products_with_deleted;
 ALTER VIEW products_without_deleted RENAME TO products;
 
+INSERT INTO categories
+(name) VALUES ('Eletronicos');
 
+INSERT INTO categories
+(name) VALUES ('Esportes');
+
+INSERT INTO categories
+(name) VALUES ('Móveis');
+
+
+
+
+
+-- DO NOT EXECUTE THE COMMANDS BELOW TO START THE APPLICATION, THEY ARE HERE TO WHEN YOU NEED TO RESTART DATA IN THE DATABASE
+
+-- --clean data
+-- DELETE FROM products;
+-- DELETE FROM users;
+-- DELETE FROM files;
+-- DELETE FROM categories;
+-- DELETE FROM orders;
+-- DELETE FROM products_with_deleted;
+
+-- -- restart sequence auto_increment from tables ids
+-- ALTER SEQUENCE products_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE users_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE files_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE categories_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE orders_id_seq RESTART WITH 1;
+-- ALTER SEQUENCE products_with_deleted_id_seq RESTART WITH 1;

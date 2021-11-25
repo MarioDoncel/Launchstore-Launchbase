@@ -28,7 +28,8 @@ const Product = {
             OR products.description ILIKE '%${filter}%')`
         }
 
-        query += ' AND products.status = 1' 
+        query += ` AND products.status = '1'` 
+        
         
         const results = await db.query(query)
         return results.rows
