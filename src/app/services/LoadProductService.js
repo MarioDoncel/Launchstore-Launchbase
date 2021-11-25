@@ -12,7 +12,7 @@ async function getImages(product) {
 
 async function format(product) {
     const files = await getImages(product)
-    product.img = files[0].src
+    product.img = files[0].src.replace(/\\/g, "/")
     product.files = files
     product.formattedPrice = formatPrice(product.price)
     product.formattedOld_price = formatPrice(product.old_price)
