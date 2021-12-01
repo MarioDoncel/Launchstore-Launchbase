@@ -150,7 +150,7 @@ Finished.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-* **Instructors Page** - Here you can see all Intructors registered showing their avatars, names, modalities that they work and the number of athletes they have. 
+<!-- * **Instructors Page** - Here you can see all Intructors registered showing their avatars, names, modalities that they work and the number of athletes they have. 
 Two are shown per page. You can filter the results by name or modality.
 <img src="public/Assets/readmeImages/InstructorsPage.png" width="500px">
 
@@ -173,7 +173,7 @@ Two are shown per page. You can filter the results by name or email.
 <img src="public/Assets/readmeImages/MemberCreatePage.png" width="500px">
 <img src="public/Assets/readmeImages/MemberDetailsPage.png" width="500px">
 <img src="public/Assets/readmeImages/MemberEditPage.png" width="500px">
-</div>
+</div> -->
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
