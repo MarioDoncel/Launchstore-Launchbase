@@ -150,30 +150,34 @@ Finished.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-<!-- * **Instructors Page** - Here you can see all Intructors registered showing their avatars, names, modalities that they work and the number of athletes they have. 
-Two are shown per page. You can filter the results by name or modality.
-<img src="public/Assets/readmeImages/InstructorsPage.png" width="500px">
+* **HomePage** - List of new products on platform
+<img src="public/Assets/readmeImages/Homepage.png" width="500px">
 
 
-* **Instructors Details/Create/Edit Pages** - Here you have the pages to show, create, edit and delete Instructors.
+* **Users LogIn/Register/PasswordRecover Pages** - Here you have the pages to user Login, Register and Recover Password.
 <div style="display:flex;">
-<img src="public/Assets/readmeImages/InstructorCreatePage.png" width="500px">
-<img src="public/Assets/readmeImages/InstructorDetailsPage.png" width="500px">
-<img src="public/Assets/readmeImages/InstructorEditPage.png" width="500px">
+<img src="public/Assets/readmeImages/LoginPage.png" width="400px">
+<img src="public/Assets/readmeImages/RegisterPage.png" width="400px">
+<img src="public/Assets/readmeImages/PasswordRecoverPage.png" width="400px">
 </div>
 <br>
 
-* **Members Page** - Here you can see all Members registered showing their avatars, names, emails, height and weight.
-Two are shown per page. You can filter the results by name or email.
-<img src="public/Assets/readmeImages/MembersPage.png" width="500px">
-
-
-* **Members Details/Create/Edit Pages** - Here you have the pages to show, create, edit and delete Members.
+* **Logged Users Home/AddProduct/Products/Orders/Sales Pages** - Here you can see the pages available for logged user.
 <div style="display:flex;">
-<img src="public/Assets/readmeImages/MemberCreatePage.png" width="500px">
-<img src="public/Assets/readmeImages/MemberDetailsPage.png" width="500px">
-<img src="public/Assets/readmeImages/MemberEditPage.png" width="500px">
-</div> -->
+<img src="public/Assets/readmeImages/LoggedPage.png" width="400px">
+<img src="public/Assets/readmeImages/AddProductPage.png" width="400px">
+<img src="public/Assets/readmeImages/MyProductsPage.png" width="400px">
+<img src="public/Assets/readmeImages/MyOrdersPage.png" width="400px">
+<img src="public/Assets/readmeImages/MySalesPage.png" width="400px">
+</div>
+
+
+* **Producst Details/ShoppingCart/SendOrder Pages** - Here you have the pages of product details, the shopping cart and the confirmations of a sent order.
+<div style="display:flex;">
+<img src="public/Assets/readmeImages/ProductDetaislPage.png" width="400px">
+<img src="public/Assets/readmeImages/ShoppingCartPage.png" width="400px">
+<img src="public/Assets/readmeImages/BuyPage.png" width="400px">
+</div>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
